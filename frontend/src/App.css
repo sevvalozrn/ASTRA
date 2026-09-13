@@ -1,184 +1,1829 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+/* =========================================================
+   ASTRA — ASTEROID SURVEILLANCE SYSTEM
+   Main Application Styles
+   ========================================================= */
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+
+/* =========================================================
+   01. DESIGN TOKENS
+   ========================================================= */
+
+:root {
+  /* Space */
+  --space-void: #030507;
+  --space-black: #05080c;
+  --space-panel: rgba(8, 13, 19, 0.72);
+  --space-panel-solid: #080d13;
+
+  /* Text */
+  --text-primary: #f2f5f7;
+  --text-secondary: #89949f;
+  --text-muted: #4d5963;
+
+  /* Lines */
+  --line: rgba(180, 205, 220, 0.12);
+  --line-bright: rgba(180, 220, 235, 0.28);
+
+  /* Accent */
+  --cyan: #7ddff2;
+  --cyan-bright: #b7f2ff;
+  --cyan-dim: rgba(125, 223, 242, 0.15);
+  --cyan-glow: rgba(125, 223, 242, 0.35);
+
+  /* Status */
+  --amber: #f3b84b;
+  --danger: #ff6b5f;
+  --success: #7ddf9a;
+
+  /* White */
+  --white: #ffffff;
+
+  /* Typography */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  /* Layout */
+  --hud-padding: 32px;
+  --panel-radius: 2px;
+
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+  --transition-slow: 600ms ease;
 }
 
-.hero {
+
+/* =========================================================
+   02. RESET
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  background: var(--space-void);
+  color-scheme: dark;
+}
+
+body {
+  overflow: hidden;
+  background: var(--space-void);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 1px solid var(--cyan);
+  outline-offset: 4px;
+}
+
+
+/* =========================================================
+   03. MAIN APP
+   ========================================================= */
+
+.app {
   position: relative;
 
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
+  width: 100%;
+  height: 100vh;
 
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
+  overflow: hidden;
 
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)
-      scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)
-      scale(0.8);
-  }
+  background:
+    radial-gradient(
+      circle at 50% 45%,
+      rgba(20, 35, 45, 0.12),
+      transparent 45%
+    ),
+    var(--space-void);
 }
 
-#center {
+
+/* =========================================================
+   04. 3D SPACE SCENE
+   ========================================================= */
+
+.space-scene {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  z-index: 1;
+}
+
+.space-scene canvas {
+  display: block;
+
+  width: 100% !important;
+  height: 100% !important;
+}
+
+
+/* =========================================================
+   05. SPACE VIGNETTE
+   ========================================================= */
+
+.space-vignette {
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 35%,
+      rgba(3, 5, 7, 0.18) 65%,
+      rgba(3, 5, 7, 0.65) 100%
+    );
+}
+
+
+/* =========================================================
+   06. SUBTLE GRID
+   ========================================================= */
+
+.space-grid {
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  pointer-events: none;
+
+  opacity: 0.08;
+
+  background-image:
+    linear-gradient(
+      rgba(125, 223, 242, 0.18) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(125, 223, 242, 0.18) 1px,
+      transparent 1px
+    );
+
+  background-size: 80px 80px;
+
+  mask-image:
+    radial-gradient(
+      ellipse at center,
+      black 0%,
+      transparent 72%
+    );
+}
+
+
+/* =========================================================
+   07. TOP HUD
+   ========================================================= */
+
+.top-hud {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 20;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  padding: var(--hud-padding);
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   08. ASTRA BRAND
+   ========================================================= */
+
+.brand {
   display: flex;
   flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
+  gap: 5px;
 }
 
-#next-steps {
-  display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
+.brand-name {
+  color: var(--text-primary);
 
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
 
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
+  line-height: 1;
 
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
+  letter-spacing: 0.24em;
 }
 
-#docs {
-  border-right: 1px solid var(--border);
+.brand-subtitle {
+  color: var(--text-secondary);
 
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 400;
+
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
-#next-steps ul {
-  list-style: none;
-  padding: 0;
-  display: flex;
+
+/* =========================================================
+   09. LIVE INDICATOR
+   ========================================================= */
+
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
-  margin: 32px 0 0;
 
-  .logo {
-    height: 18px;
-  }
+  margin-top: 14px;
 
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
+  color: var(--text-secondary);
 
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
+  font-family: var(--font-mono);
+  font-size: 9px;
 
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+.live-dot {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: var(--cyan);
+
+  box-shadow:
+    0 0 6px var(--cyan),
+    0 0 14px var(--cyan-dim);
+
+  animation: livePulse 2.4s ease-in-out infinite;
 }
 
-.ticks {
+
+/* =========================================================
+   10. DATA SOURCE HUD
+   ========================================================= */
+
+.data-source {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  gap: 5px;
+
+  text-align: right;
+}
+
+.utc-time {
+  color: var(--text-primary);
+
+  font-family: var(--font-mono);
+  font-size: 11px;
+
+  letter-spacing: 0.12em;
+}
+
+.data-source-label {
+  color: var(--text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.data-source-name {
+  color: var(--text-secondary);
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+
+  letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   11. LEFT SIDE HUD
+   ========================================================= */
+
+.left-hud {
+  position: absolute;
+
+  left: var(--hud-padding);
+  top: 50%;
+
+  z-index: 20;
+
+  transform: translateY(-50%);
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 30px;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   12. DATA READOUT
+   ========================================================= */
+
+.data-readout {
   position: relative;
+
+  padding-left: 14px;
+}
+
+.data-readout::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+
+  width: 1px;
+
+  background: var(--line-bright);
+}
+
+.data-readout-label {
+  color: var(--text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.data-readout-value {
+  margin-top: 5px;
+
+  color: var(--text-primary);
+
+  font-family: var(--font-mono);
+  font-size: 25px;
+  font-weight: 400;
+
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.data-readout-description {
+  margin-top: 5px;
+
+  color: var(--text-secondary);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   13. SYSTEM STATUS
+   ========================================================= */
+
+.system-status {
+  display: flex;
+  flex-direction: column;
+
+  gap: 8px;
+}
+
+.system-status-title {
+  color: var(--text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  color: var(--text-secondary);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.status-dot {
+  width: 4px;
+  height: 4px;
+
+  border-radius: 50%;
+
+  background: var(--success);
+}
+
+.status-dot.warning {
+  background: var(--amber);
+}
+
+.status-dot.danger {
+  background: var(--danger);
+}
+
+
+/* =========================================================
+   14. RIGHT SIDE OBJECT PANEL
+   ========================================================= */
+
+.object-panel {
+  position: absolute;
+
+  top: 50%;
+  right: 32px;
+
+  z-index: 30;
+
+  width: 320px;
+
+  transform: translateY(-50%);
+
+  padding: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(10, 16, 23, 0.82),
+      rgba(5, 8, 12, 0.68)
+    );
+
+  border: 1px solid var(--line);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+
+  animation: panelIn 500ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  box-shadow:
+    -20px 0 60px rgba(0, 0, 0, 0.25);
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   15. PANEL DECORATIVE CORNERS
+   ========================================================= */
+
+.object-panel::before,
+.object-panel::after {
+  content: "";
+
+  position: absolute;
+
+  width: 18px;
+  height: 18px;
+
+  pointer-events: none;
+}
+
+.object-panel::before {
+  top: -1px;
+  left: -1px;
+
+  border-top: 1px solid var(--cyan);
+  border-left: 1px solid var(--cyan);
+}
+
+.object-panel::after {
+  right: -1px;
+  bottom: -1px;
+
+  border-right: 1px solid var(--cyan);
+  border-bottom: 1px solid var(--cyan);
+}
+
+
+/* =========================================================
+   16. OBJECT HEADER
+   ========================================================= */
+
+.object-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid var(--line);
+}
+
+.object-label {
+  color: var(--text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.object-name {
+  margin-top: 7px;
+
+  color: var(--text-primary);
+
+  font-family: var(--font-display);
+  font-size: 25px;
+  font-weight: 400;
+
+  letter-spacing: 0.02em;
+}
+
+.object-designation {
+  margin-top: 4px;
+
+  color: var(--text-secondary);
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+
+  letter-spacing: 0.08em;
+}
+
+.object-type {
+  color: var(--cyan);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.12em;
+}
+
+
+/* =========================================================
+   17. OBJECT STATUS
+   ========================================================= */
+
+.object-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-top: 18px;
+
+  color: var(--amber);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.object-status-dot {
+  width: 5px;
+  height: 5px;
+
+  border-radius: 50%;
+
+  background: var(--amber);
+
+  box-shadow: 0 0 8px rgba(243, 184, 75, 0.45);
+}
+
+
+/* =========================================================
+   18. OBJECT DATA
+   ========================================================= */
+
+.object-data {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 20px;
+}
+
+.object-data-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 11px 0;
+
+  border-bottom: 1px solid var(--line);
+}
+
+.object-data-row:last-child {
+  border-bottom: none;
+}
+
+.object-data-label {
+  color: var(--text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.object-data-value {
+  color: var(--text-primary);
+
+  font-family: var(--font-mono);
+  font-size: 10px;
+
+  letter-spacing: 0.05em;
+}
+
+
+/* =========================================================
+   19. ENTER SYSTEM BUTTON
+   ========================================================= */
+
+.enter-button {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 24px;
+
+  padding: 14px 28px;
+
+  background: transparent;
+
+  border: 1px solid var(--line);
+
+  color: var(--text-primary);
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  transition:
+    border-color var(--transition-normal),
+    color var(--transition-normal),
+    box-shadow var(--transition-normal),
+    background var(--transition-normal);
+}
+
+.enter-button:hover {
+  border-color: var(--cyan);
+
+  color: var(--cyan-bright);
+
+  background: rgba(125, 223, 242, 0.025);
+
+  box-shadow:
+    0 0 30px var(--cyan-dim),
+    inset 0 0 20px rgba(125, 223, 242, 0.03);
+}
+
+.enter-button::before,
+.enter-button::after {
+  content: "";
+
+  position: absolute;
+
+  width: 7px;
+  height: 7px;
+
+  transition: all var(--transition-normal);
+}
+
+.enter-button::before {
+  top: -1px;
+  left: -1px;
+
+  border-top: 1px solid var(--cyan);
+  border-left: 1px solid var(--cyan);
+}
+
+.enter-button::after {
+  right: -1px;
+  bottom: -1px;
+
+  border-right: 1px solid var(--cyan);
+  border-bottom: 1px solid var(--cyan);
+}
+
+
+/* =========================================================
+   20. VIEW ORBIT BUTTON
+   ========================================================= */
+
+.view-orbit-button {
+  position: relative;
+
   width: 100%;
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
+  margin-top: 20px;
+  padding: 13px 16px;
+
+  background: var(--cyan-dim);
+
+  border: 1px solid rgba(125, 223, 242, 0.24);
+
+  color: var(--cyan-bright);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+
+  transition: all var(--transition-normal);
+}
+
+.view-orbit-button:hover {
+  background: rgba(125, 223, 242, 0.22);
+
+  border-color: var(--cyan);
+
+  box-shadow:
+    0 0 24px rgba(125, 223, 242, 0.12);
+}
+
+
+/* =========================================================
+   21. BOTTOM NAVIGATION
+   ========================================================= */
+
+.bottom-nav {
+  position: absolute;
+
+  left: 50%;
+  bottom: 28px;
+
+  z-index: 20;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+
+  gap: 32px;
+
+  padding: 10px 18px;
+
+  border-top: 1px solid var(--line);
+
+  pointer-events: auto;
+}
+
+.nav-item {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  background: transparent;
+
+  border: none;
+
+  color: var(--text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+
+  transition: color var(--transition-normal);
+}
+
+.nav-item::before {
+  content: "";
+
+  width: 3px;
+  height: 3px;
+
+  border-radius: 50%;
+
+  background: currentColor;
+
+  opacity: 0.5;
+}
+
+.nav-item:hover {
+  color: var(--text-secondary);
+}
+
+.nav-item.active {
+  color: var(--cyan);
+}
+
+.nav-item.active::before {
+  opacity: 1;
+
+  box-shadow:
+    0 0 8px var(--cyan);
+}
+
+
+/* =========================================================
+   22. INTRO / BOOT SCREEN
+   ========================================================= */
+
+.intro-screen {
+  position: absolute;
+  inset: 0;
+
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--space-void);
+
+  transition:
+    opacity 900ms ease,
+    visibility 900ms ease;
+}
+
+.intro-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-content {
+  width: min(520px, calc(100% - 48px));
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   23. INTRO LOGO
+   ========================================================= */
+
+.intro-logo {
+  color: var(--text-primary);
+
+  font-family: var(--font-display);
+  font-size: clamp(42px, 8vw, 78px);
+  font-weight: 300;
+
+  line-height: 1;
+
+  letter-spacing: 0.22em;
+
+  animation: introLogoIn 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.intro-subtitle {
+  margin-top: 14px;
+
+  color: var(--text-secondary);
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+
+  animation: fadeUp 1000ms 200ms both;
+}
+
+
+/* =========================================================
+   24. BOOT STATUS
+   ========================================================= */
+
+.boot-status {
+  width: 100%;
+
+  margin-top: 60px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  text-align: left;
+
+  animation: fadeUp 1000ms 400ms both;
+}
+
+.boot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 8px;
+
+  border-bottom: 1px solid var(--line);
+
+  color: var(--text-secondary);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.boot-status-value {
+  color: var(--cyan);
+
+  font-size: 8px;
+}
+
+.boot-status-value.loading {
+  color: var(--text-secondary);
+}
+
+.boot-status-value.warning {
+  color: var(--amber);
+}
+
+
+/* =========================================================
+   25. INTRO ENTER AREA
+   ========================================================= */
+
+.intro-enter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-top: 46px;
+
+  animation: fadeUp 1000ms 700ms both;
+}
+
+.intro-enter-label {
+  color: var(--text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   26. SCANLINE
+   ========================================================= */
+
+.scanline {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+
+  top: 0;
+
+  height: 1px;
+
+  z-index: 5;
+
+  pointer-events: none;
+
+  background: rgba(125, 223, 242, 0.08);
+
+  animation: scanline 8s linear infinite;
+}
+
+
+/* =========================================================
+   27. TARGET MARKER
+   ========================================================= */
+
+.target-marker {
+  position: absolute;
+
+  width: 34px;
+  height: 34px;
+
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+
+  border: 1px solid rgba(125, 223, 242, 0.65);
+
+  border-radius: 50%;
+
+  animation: targetPulse 2s ease-in-out infinite;
+}
+
+.target-marker::before,
+.target-marker::after {
+  content: "";
+
+  position: absolute;
+
+  background: var(--cyan);
+}
+
+.target-marker::before {
+  left: 50%;
+  top: -5px;
+
+  width: 1px;
+  height: 5px;
+}
+
+.target-marker::after {
+  left: 50%;
+  bottom: -5px;
+
+  width: 1px;
+  height: 5px;
+}
+
+
+/* =========================================================
+   28. RADAR ELEMENT
+   ========================================================= */
+
+.radar {
+  position: absolute;
+
+  right: 32px;
+  bottom: 90px;
+
+  z-index: 10;
+
+  width: 100px;
+  height: 100px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  opacity: 0.55;
+}
+
+.radar::before {
+  content: "";
+
+  position: absolute;
+  inset: 15px;
+
+  border: 1px solid var(--line);
+
+  border-radius: 50%;
+}
+
+.radar::after {
+  content: "";
+
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: 50%;
+  height: 1px;
+
+  transform-origin: left center;
+
+  background: linear-gradient(
+    90deg,
+    var(--cyan),
+    transparent
+  );
+
+  animation: radarSweep 4s linear infinite;
+}
+
+
+/* =========================================================
+   29. CORNER DECORATIONS
+   ========================================================= */
+
+.corner {
+  position: absolute;
+
+  z-index: 10;
+
+  width: 20px;
+  height: 20px;
+
+  pointer-events: none;
+}
+
+.corner.top-left {
+  top: 24px;
+  left: 24px;
+
+  border-top: 1px solid var(--line-bright);
+  border-left: 1px solid var(--line-bright);
+}
+
+.corner.top-right {
+  top: 24px;
+  right: 24px;
+
+  border-top: 1px solid var(--line-bright);
+  border-right: 1px solid var(--line-bright);
+}
+
+.corner.bottom-left {
+  bottom: 24px;
+  left: 24px;
+
+  border-bottom: 1px solid var(--line-bright);
+  border-left: 1px solid var(--line-bright);
+}
+
+.corner.bottom-right {
+  right: 24px;
+  bottom: 24px;
+
+  border-right: 1px solid var(--line-bright);
+  border-bottom: 1px solid var(--line-bright);
+}
+
+
+/* =========================================================
+   30. ORBIT MODE
+   ========================================================= */
+
+.orbit-mode {
+  position: absolute;
+  inset: 0;
+
+  z-index: 15;
+
+  pointer-events: none;
+}
+
+.orbit-info {
+  position: absolute;
+
+  left: 32px;
+  bottom: 90px;
+
+  width: 260px;
+
+  padding: 18px;
+
+  background: rgba(5, 8, 12, 0.68);
+
+  border-left: 1px solid var(--cyan);
+
+  backdrop-filter: blur(10px);
+}
+
+.orbit-info-title {
+  color: var(--text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.orbit-info-name {
+  margin-top: 5px;
+
+  color: var(--text-primary);
+
+  font-family: var(--font-display);
+  font-size: 19px;
+}
+
+.orbit-data {
+  margin-top: 16px;
+}
+
+.orbit-data-row {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 8px 0;
+
+  border-bottom: 1px solid var(--line);
+}
+
+.orbit-data-label {
+  color: var(--text-muted);
+
+  font-family: var(--font-mono);
+  font-size: 7px;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.orbit-data-value {
+  color: var(--text-primary);
+
+  font-family: var(--font-mono);
+  font-size: 8px;
+}
+
+
+/* =========================================================
+   31. UTILITY CLASSES
+   ========================================================= */
+
+.text-cyan {
+  color: var(--cyan);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-warning {
+  color: var(--amber);
+}
+
+.text-danger {
+  color: var(--danger);
+}
+
+.text-success {
+  color: var(--success);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+
+/* =========================================================
+   32. ANIMATIONS
+   ========================================================= */
+
+@keyframes livePulse {
+  0%,
+  100% {
+    opacity: 0.4;
+
+    box-shadow:
+      0 0 4px var(--cyan),
+      0 0 8px var(--cyan-dim);
   }
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
-  }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
+  50% {
+    opacity: 1;
+
+    box-shadow:
+      0 0 8px var(--cyan),
+      0 0 18px var(--cyan-dim);
   }
 }
+
+
+@keyframes targetPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
+}
+
+
+@keyframes radarSweep {
+  0% {
+    transform: rotate(0deg);
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(360deg);
+    opacity: 0.2;
+  }
+}
+
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translate(30px, -50%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+@keyframes introLogoIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+    letter-spacing: 0.4em;
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+    letter-spacing: 0.22em;
+  }
+}
+
+
+/* =========================================================
+   33. RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  :root {
+    --hud-padding: 20px;
+  }
+
+  .object-panel {
+    right: 20px;
+
+    width: 290px;
+  }
+
+  .left-hud {
+    left: 20px;
+  }
+
+  .radar {
+    right: 20px;
+  }
+
+  .bottom-nav {
+    bottom: 20px;
+  }
+}
+
+
+/* =========================================================
+   34. RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 640px) {
+  body {
+    overflow: hidden;
+  }
+
+  .top-hud {
+    padding: 18px;
+  }
+
+  .brand-name {
+    font-size: 16px;
+  }
+
+  .brand-subtitle {
+    font-size: 7px;
+  }
+
+  .data-source {
+    display: none;
+  }
+
+  .left-hud {
+    top: auto;
+    bottom: 80px;
+    left: 18px;
+
+    transform: none;
+
+    gap: 15px;
+  }
+
+  .data-readout-value {
+    font-size: 20px;
+  }
+
+  .system-status {
+    display: none;
+  }
+
+  .object-panel {
+    top: auto;
+    right: 12px;
+    left: 12px;
+    bottom: 70px;
+
+    width: auto;
+
+    transform: none;
+
+    padding: 18px;
+
+    animation: mobilePanelIn 500ms
+      cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .object-name {
+    font-size: 21px;
+  }
+
+  .bottom-nav {
+    bottom: 15px;
+
+    gap: 18px;
+
+    width: calc(100% - 36px);
+
+    justify-content: center;
+  }
+
+  .nav-item {
+    font-size: 7px;
+  }
+
+  .radar {
+    display: none;
+  }
+
+  .corner {
+    width: 12px;
+    height: 12px;
+  }
+
+  .corner.top-left,
+  .corner.top-right {
+    top: 15px;
+  }
+
+  .corner.bottom-left,
+  .corner.bottom-right {
+    bottom: 15px;
+  }
+
+  .corner.top-left,
+  .corner.bottom-left {
+    left: 15px;
+  }
+
+  .corner.top-right,
+  .corner.bottom-right {
+    right: 15px;
+  }
+
+  .orbit-info {
+    left: 18px;
+    right: 18px;
+    bottom: 70px;
+
+    width: auto;
+  }
+}
+
+
+@keyframes mobilePanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   35. REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* =========================================================
+   36. RADAR FIELD & TARGETING SYSTEM
+   ========================================================= */
+
+.radar-field {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Concentric range rings around Earth (50%, 50%) */
+.radar-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px dashed rgba(125, 223, 242, 0.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.radar-ring-1 {
+  width: min(24vw, 24vh);
+  height: min(24vw, 24vh);
+}
+
+.radar-ring-2 {
+  width: min(48vw, 48vh);
+  height: min(48vw, 48vh);
+}
+
+.radar-ring-3 {
+  width: min(72vw, 72vh);
+  height: min(72vw, 72vh);
+}
+
+.radar-ring-label {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  color: rgba(125, 223, 242, 0.35);
+  pointer-events: none;
+}
+
+/* Center crosshair axes */
+.radar-axis-h {
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(125, 223, 242, 0.08) 20%, rgba(125, 223, 242, 0.08) 80%, transparent);
+  pointer-events: none;
+}
+
+.radar-axis-v {
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  bottom: 10%;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(125, 223, 242, 0.08) 20%, rgba(125, 223, 242, 0.08) 80%, transparent);
+  pointer-events: none;
+}
+
+/* Center Earth marker */
+.radar-earth {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #5dade2;
+  box-shadow: 0 0 12px rgba(93, 173, 226, 0.8), 0 0 24px rgba(93, 173, 226, 0.4);
+  pointer-events: none;
+  z-index: 15;
+}
+
+.radar-earth-label {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  color: rgba(93, 173, 226, 0.7);
+  white-space: nowrap;
+}
+
+/* Radar dots */
+.radar-dot-button {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: auto;
+  z-index: 25;
+  padding: 0;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  opacity: 0;
+  animation: radarBlipIn 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.radar-dot-core {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cyan);
+  border: 1px solid var(--cyan-bright);
+  box-shadow: 0 0 8px var(--cyan), 0 0 16px var(--cyan-dim);
+  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+}
+
+.radar-dot-core.hazard {
+  background: var(--amber);
+  border-color: #ffe082;
+  box-shadow: 0 0 8px var(--amber), 0 0 16px rgba(243, 184, 75, 0.3);
+}
+
+.radar-dot-core.critical {
+  background: var(--danger);
+  border-color: #ffab91;
+  box-shadow: 0 0 10px var(--danger), 0 0 20px rgba(255, 107, 95, 0.4);
+}
+
+.radar-dot-button:hover .radar-dot-core {
+  transform: scale(1.5);
+  box-shadow: 0 0 14px var(--cyan-bright), 0 0 25px var(--cyan);
+}
+
+.radar-dot-button.active .radar-dot-core {
+  transform: scale(1.4);
+  background: #ffffff;
+  border-color: var(--cyan-bright);
+  box-shadow: 0 0 16px #ffffff, 0 0 30px var(--cyan);
+}
+
+/* Initial ping animation when blip appears */
+.radar-dot-ping {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--cyan);
+  pointer-events: none;
+  animation: radarPing 1400ms cubic-bezier(0.2, 0.8, 0.2, 1) 1 forwards;
+}
+
+/* Hover tooltip tag */
+.radar-dot-tag {
+  position: absolute;
+  left: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(8, 13, 19, 0.92);
+  border: 1px solid var(--line-bright);
+  border-left: 2px solid var(--cyan);
+  padding: 3px 6px;
+  border-radius: 2px;
+  white-space: nowrap;
+  pointer-events: none;
+  display: none;
+  flex-direction: column;
+  gap: 1px;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
+.radar-dot-button:hover .radar-dot-tag,
+.radar-dot-button:focus-visible .radar-dot-tag {
+  display: flex;
+}
+
+.radar-dot-tag-title {
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+}
+
+.radar-dot-tag-meta {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+}
+
+@keyframes radarBlipIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  60% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes radarPing {
+  0% {
+    transform: scale(0.6);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3.6);
+    opacity: 0;
+  }
+}
