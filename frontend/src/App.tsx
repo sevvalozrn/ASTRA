@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import astraObjectsRaw from "./data/astra_objects.json";
+import AsteroidOrbitViewer from "./AsteroidOrbitViewer";
 
 export type AstraObject = {
   spkid: number;
@@ -171,9 +172,8 @@ function App() {
 
       {!showInterface && (
         <section
-          className={`intro-screen ${
-            systemStarted && bootStep >= 3 ? "hidden" : ""
-          }`}
+          className={`intro-screen ${systemStarted && bootStep >= 3 ? "hidden" : ""
+            }`}
         >
           <div className="intro-content">
             <h1 className="intro-logo">ASTRA</h1>
@@ -283,60 +283,62 @@ function App() {
               LEFT HUD
               ------------------------------------------------- */}
 
-          <aside className="left-hud">
-            <div className="data-readout">
-              <div className="data-readout-label">
-                Objects Detected
+          {!orbitMode && (
+            <aside className="left-hud">
+              <div className="data-readout">
+                <div className="data-readout-label">
+                  Objects Detected
+                </div>
+
+                <div className="data-readout-value">
+                  {String(astraObjects.length).padStart(2, "0")}
+                </div>
+
+                <div className="data-readout-description">
+                  Near-Earth Objects
+                </div>
               </div>
 
-              <div className="data-readout-value">
-                {String(astraObjects.length).padStart(2, "0")}
+              <div className="data-readout">
+                <div className="data-readout-label">
+                  Close Approaches
+                </div>
+
+                <div className="data-readout-value">
+                  {String(
+                    astraObjects.filter(
+                      (o) => parseFloat(o.moid || "1") < 0.05
+                    ).length
+                  ).padStart(2, "0")}
+                </div>
+
+                <div className="data-readout-description">
+                  Tracked Objects
+                </div>
               </div>
 
-              <div className="data-readout-description">
-                Near-Earth Objects
-              </div>
-            </div>
+              <div className="system-status">
+                <div className="system-status-title">
+                  System Status
+                </div>
 
-            <div className="data-readout">
-              <div className="data-readout-label">
-                Close Approaches
-              </div>
+                <div className="status-row">
+                  <span className="status-dot" />
+                  Radar Active
+                </div>
 
-              <div className="data-readout-value">
-                {String(
-                  astraObjects.filter(
-                    (o) => parseFloat(o.moid || "1") < 0.05
-                  ).length
-                ).padStart(2, "0")}
-              </div>
+                <div className="status-row">
+                  <span className="status-dot" />
+                  Tracking Online
+                </div>
 
-              <div className="data-readout-description">
-                Tracked Objects
+                <div className="status-row">
+                  <span className="status-dot" />
+                  Data Synchronized
+                </div>
               </div>
-            </div>
-
-            <div className="system-status">
-              <div className="system-status-title">
-                System Status
-              </div>
-
-              <div className="status-row">
-                <span className="status-dot" />
-                Radar Active
-              </div>
-
-              <div className="status-row">
-                <span className="status-dot" />
-                Tracking Online
-              </div>
-
-              <div className="status-row">
-                <span className="status-dot" />
-                Data Synchronized
-              </div>
-            </div>
-          </aside>
+            </aside>
+          )}
 
           {/* -------------------------------------------------
               RADAR FIELD & TARGETING SYSTEM
@@ -344,24 +346,39 @@ function App() {
 
           {!orbitMode && (
             <div className="radar-field">
+              {/* Phased array rotating sweep scanner */}
+              <div className="radar-sweep-beam" />
+
+              {/* Diagonal azimuth reference guides */}
+              <div className="radar-diagonal radar-diag-1" />
+              <div className="radar-diagonal radar-diag-2" />
+
               {/* Concentric range rings centered around Earth (50%, 50%) */}
               <div className="radar-ring radar-ring-1">
-                <span className="radar-ring-label">1.0 AU</span>
+                <span className="radar-ring-label">1.0 AU • 150M KM</span>
               </div>
               <div className="radar-ring radar-ring-2">
-                <span className="radar-ring-label">2.5 AU</span>
+                <span className="radar-ring-label">2.5 AU • 375M KM</span>
               </div>
               <div className="radar-ring radar-ring-3">
-                <span className="radar-ring-label">4.0 AU</span>
+                <span className="radar-ring-label">4.0 AU • 600M KM</span>
               </div>
+
+              {/* Azimuth Cardinal Indicators */}
+              <div className="radar-cardinal cardinal-n">000° N</div>
+              <div className="radar-cardinal cardinal-e">090° E</div>
+              <div className="radar-cardinal cardinal-s">180° S</div>
+              <div className="radar-cardinal cardinal-w">270° W</div>
 
               {/* Crosshair reticle axes */}
               <div className="radar-axis-h" />
               <div className="radar-axis-v" />
 
-              {/* Center Earth origin */}
-              <div className="radar-earth" title="Earth [0,0,0]">
-                <span className="radar-earth-label">EARTH</span>
+              {/* Center Earth Astronomical Reference Datum */}
+              <div className="radar-earth" title="Earth Datum [0,0,0]">
+                <div className="radar-earth-crosshair" />
+                <span className="radar-earth-glyph">⊕</span>
+                <span className="radar-earth-label">EARTH [0.00 AU]</span>
               </div>
 
               {/* Asteroid radar blips from astra_objects.json */}
@@ -381,55 +398,66 @@ function App() {
                 return (
                   <button
                     key={asteroid.spkid}
-                    className={`radar-dot-button ${
-                      isSelected ? "active" : ""
-                    }`}
+                    className={`radar-dot-button ${isSelected ? "active" : ""
+                      }`}
                     onClick={() => handleSelectAsteroid(asteroid)}
                     style={{
                       left: `${left}%`,
                       top: `${top}%`,
-                      animationDelay: `${index * 55}ms`,
+                      animationDelay: `${index * 35}ms`,
                     }}
                     aria-label={`Select ${asteroid.pdes}`}
                     title={asteroid.full_name || asteroid.pdes}
                   >
-                    {/* Initial radar ping wave on appearance */}
+                    {/* Blip contact diamond */}
                     <span
-                      className="radar-dot-ping"
-                      style={{ animationDelay: `${index * 55}ms` }}
-                    />
-
-                    {/* Glowing dot core */}
-                    <span
-                      className={`radar-dot-core ${
-                        isCritical
+                      className={`radar-dot-core ${isCritical
                           ? "critical"
                           : isHazard
-                          ? "hazard"
-                          : ""
-                      }`}
+                            ? "hazard"
+                            : ""
+                        }`}
                     />
 
-                    {/* Tactical hover tooltip */}
+                    {/* Micro designation tag */}
+                    <span className="radar-blip-pdes">
+                      {asteroid.pdes}
+                    </span>
+
+                    {/* Technical tactical hover readout */}
                     <span className="radar-dot-tag">
-                      <span className="radar-dot-tag-title">
-                        {asteroid.name || asteroid.pdes}
-                      </span>
-                      <span className="radar-dot-tag-meta">
-                        MOID:{" "}
-                        {asteroid.moid_ld
-                          ? `${parseFloat(asteroid.moid_ld).toFixed(2)} LD`
-                          : asteroid.moid
-                          ? `${parseFloat(asteroid.moid).toFixed(4)} AU`
-                          : "N/A"}{" "}
-                        | #{asteroid.astra_score}
-                      </span>
+                      <div className="radar-tag-row header">
+                        <span className="radar-dot-tag-title">
+                          {asteroid.name || asteroid.pdes}
+                        </span>
+                        <span className={`radar-tag-badge ${asteroid.pha === "Y" ? "pha" : ""}`}>
+                          {asteroid.pha === "Y" ? "PHA" : "NEO"}
+                        </span>
+                      </div>
+                      <div className="radar-tag-grid">
+                        <span className="radar-tag-k">MOID:</span>
+                        <span className="radar-tag-v">
+                          {asteroid.moid_ld
+                            ? `${parseFloat(asteroid.moid_ld).toFixed(1)} LD`
+                            : asteroid.moid
+                              ? `${parseFloat(asteroid.moid).toFixed(3)} AU`
+                              : "N/A"}
+                        </span>
+                        <span className="radar-tag-k">SCORE:</span>
+                        <span className="radar-tag-v">
+                          {asteroid.astra_score}/120
+                        </span>
+                        <span className="radar-tag-k">CLASS:</span>
+                        <span className="radar-tag-v">
+                          {asteroid.class || "NEO"}
+                        </span>
+                      </div>
                     </span>
                   </button>
                 );
               })}
 
-              {/* Reticle locked onto selected asteroid */}
+              {/* Optical lock reticle for selected asteroid */}
               {selectedAsteroid && (
                 <div
                   className="target-marker"
@@ -438,7 +466,18 @@ function App() {
                     top: `${50 + (selectedAsteroid.position.z / 5.6) * 36}%`,
                     zIndex: 35,
                   }}
-                />
+                >
+                  <div className="target-reticle-corner corner-tl" />
+                  <div className="target-reticle-corner corner-tr" />
+                  <div className="target-reticle-corner corner-bl" />
+                  <div className="target-reticle-corner corner-br" />
+                  <div className="target-reticle-label">
+                    <span className="target-lock-title">LOCK: {selectedAsteroid.pdes}</span>
+                    <span className="target-coords">
+                      X: {selectedAsteroid.position.x.toFixed(2)} AU | Z: {selectedAsteroid.position.z.toFixed(2)} AU
+                    </span>
+                  </div>
+                </div>
               )}
             </div>
           )}
@@ -479,9 +518,8 @@ function App() {
 
               <div className="object-status">
                 <span
-                  className={`object-status-dot ${
-                    selectedAsteroid.pha === "Y" ? "danger" : ""
-                  }`}
+                  className={`object-status-dot ${selectedAsteroid.pha === "Y" ? "danger" : ""
+                    }`}
                 />
 
                 {selectedAsteroid.pha === "Y"
@@ -505,8 +543,8 @@ function App() {
                     {selectedAsteroid.diameter
                       ? `${selectedAsteroid.diameter} km`
                       : selectedAsteroid.H
-                      ? `H: ${selectedAsteroid.H} mag`
-                      : "UNKNOWN"}
+                        ? `H: ${selectedAsteroid.H} mag`
+                        : "UNKNOWN"}
                   </span>
                 </div>
 
@@ -606,6 +644,13 @@ function App() {
 
           {orbitMode && selectedAsteroid && (
             <section className="orbit-mode">
+              {/* 3D Scientific Asteroid & Orbit Viewport */}
+              <AsteroidOrbitViewer
+                asteroid={selectedAsteroid}
+                allAsteroids={astraObjects}
+                onSelectAsteroid={(ast) => setSelectedAsteroid(ast)}
+              />
+
               <div className="orbit-info">
                 <div className="orbit-info-title">Orbital Analysis</div>
 
@@ -615,44 +660,45 @@ function App() {
 
                 <div className="orbit-data">
                   <div className="orbit-data-row">
-                    <span className="orbit-data-label">
-                      Semi-major Axis (a)
-                    </span>
-
+                    <span className="orbit-data-label">Class</span>
                     <span className="orbit-data-value">
-                      {selectedAsteroid.a
-                        ? `${parseFloat(selectedAsteroid.a).toFixed(3)} AU`
-                        : "N/A"}
+                      {selectedAsteroid.class ? selectedAsteroid.class.toUpperCase() : "APOLLO"}
                     </span>
                   </div>
 
                   <div className="orbit-data-row">
-                    <span className="orbit-data-label">
-                      Eccentricity (e)
-                    </span>
-
-                    <span className="orbit-data-value">
-                      {selectedAsteroid.e
-                        ? parseFloat(selectedAsteroid.e).toFixed(3)
-                        : "N/A"}
+                    <span className="orbit-data-label">Status</span>
+                    <span
+                      className="orbit-data-value"
+                      style={{
+                        color: selectedAsteroid.pha === "Y" ? "var(--danger)" : "var(--cyan)",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {selectedAsteroid.pha === "Y"
+                        ? "POTENTIALLY HAZARDOUS"
+                        : "MONITORED OBJECT"}
                     </span>
                   </div>
 
                   <div className="orbit-data-row">
-                    <span className="orbit-data-label">
-                      Inclination (i)
-                    </span>
-
-                    <span className="orbit-data-value">
-                      {selectedAsteroid.i
-                        ? `${parseFloat(selectedAsteroid.i).toFixed(2)}°`
-                        : "N/A"}
+                    <span className="orbit-data-label">Diameter</span>
+                    <span
+                      className="orbit-data-value"
+                      style={{ color: "var(--cyan-bright)", fontWeight: 500 }}
+                    >
+                      {selectedAsteroid.diameter
+                        ? parseFloat(selectedAsteroid.diameter) < 1
+                          ? `${Math.round(parseFloat(selectedAsteroid.diameter) * 1000)} m`
+                          : `${parseFloat(selectedAsteroid.diameter).toFixed(2)} km`
+                        : selectedAsteroid.H
+                          ? `H: ${selectedAsteroid.H} mag`
+                          : "UNKNOWN"}
                     </span>
                   </div>
 
                   <div className="orbit-data-row">
                     <span className="orbit-data-label">Earth MOID</span>
-
                     <span className="orbit-data-value">
                       {selectedAsteroid.moid
                         ? `${parseFloat(selectedAsteroid.moid).toFixed(5)} AU`
@@ -661,10 +707,34 @@ function App() {
                   </div>
 
                   <div className="orbit-data-row">
-                    <span className="orbit-data-label">
-                      Orbital Period
+                    <span className="orbit-data-label">Semi-major Axis (a)</span>
+                    <span className="orbit-data-value">
+                      {selectedAsteroid.a
+                        ? `${parseFloat(selectedAsteroid.a).toFixed(3)} AU`
+                        : "N/A"}
                     </span>
+                  </div>
 
+                  <div className="orbit-data-row">
+                    <span className="orbit-data-label">Eccentricity (e)</span>
+                    <span className="orbit-data-value">
+                      {selectedAsteroid.e
+                        ? parseFloat(selectedAsteroid.e).toFixed(3)
+                        : "N/A"}
+                    </span>
+                  </div>
+
+                  <div className="orbit-data-row">
+                    <span className="orbit-data-label">Inclination (i)</span>
+                    <span className="orbit-data-value">
+                      {selectedAsteroid.i
+                        ? `${parseFloat(selectedAsteroid.i).toFixed(2)}°`
+                        : "N/A"}
+                    </span>
+                  </div>
+
+                  <div className="orbit-data-row">
+                    <span className="orbit-data-label">Period</span>
                     <span className="orbit-data-value">
                       {selectedAsteroid.per
                         ? `${parseFloat(selectedAsteroid.per).toFixed(1)} days`

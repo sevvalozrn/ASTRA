@@ -9,38 +9,45 @@
    ========================================================= */
 
 :root {
-  /* Space */
-  --space-void: #030507;
-  --space-black: #05080c;
-  --space-panel: rgba(8, 13, 19, 0.72);
-  --space-panel-solid: #080d13;
+  /* Aerospace Space Void & Paneling */
+  --space-void: #020406;
+  --space-black: #04070a;
+  --space-panel: rgba(7, 12, 18, 0.88);
+  --space-panel-solid: #090f16;
+  --space-panel-border: rgba(90, 140, 175, 0.18);
+  --space-panel-border-focus: rgba(94, 226, 255, 0.45);
 
-  /* Text */
-  --text-primary: #f2f5f7;
-  --text-secondary: #89949f;
-  --text-muted: #4d5963;
+  /* Scientific Typography */
+  --text-primary: #f0f4f8;
+  --text-secondary: #8493a2;
+  --text-muted: #455260;
 
-  /* Lines */
-  --line: rgba(180, 205, 220, 0.12);
-  --line-bright: rgba(180, 220, 235, 0.28);
+  /* Technical Hairlines */
+  --line: rgba(90, 138, 170, 0.14);
+  --line-bright: rgba(90, 155, 195, 0.28);
+  --line-focus: rgba(94, 226, 255, 0.5);
 
-  /* Accent */
-  --cyan: #7ddff2;
-  --cyan-bright: #b7f2ff;
-  --cyan-dim: rgba(125, 223, 242, 0.15);
-  --cyan-glow: rgba(125, 223, 242, 0.35);
+  /* Electric Cyan & Soft Blue */
+  --cyan: #5ee2ff;
+  --cyan-bright: #b8f4ff;
+  --cyan-dim: rgba(94, 226, 255, 0.12);
+  --cyan-glow: rgba(94, 226, 255, 0.22);
+  --blue-soft: #5c8fae;
+  --blue-dark: #0f1c29;
 
-  /* Status */
-  --amber: #f3b84b;
-  --danger: #ff6b5f;
-  --success: #7ddf9a;
+  /* Restrained Status (Calibrated Aerospace Warning Levels) */
+  --amber: #cf9330;
+  --amber-dim: rgba(207, 147, 48, 0.18);
+  --danger: #cc473b;
+  --danger-dim: rgba(204, 71, 59, 0.18);
+  --success: #4fae72;
 
   /* White */
   --white: #ffffff;
 
   /* Typography */
-  --font-display: "Space Grotesk", sans-serif;
-  --font-mono: "IBM Plex Mono", monospace;
+  --font-display: "Space Grotesk", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "IBM Plex Mono", "SF Mono", monospace;
 
   /* Layout */
   --hud-padding: 32px;
@@ -48,8 +55,8 @@
 
   /* Transitions */
   --transition-fast: 150ms ease;
-  --transition-normal: 300ms ease;
-  --transition-slow: 600ms ease;
+  --transition-normal: 260ms ease;
+  --transition-slow: 500ms ease;
 }
 
 
@@ -114,11 +121,9 @@ button:focus-visible {
   overflow: hidden;
 
   background:
-    radial-gradient(
-      circle at 50% 45%,
+    radial-gradient(circle at 50% 45%,
       rgba(20, 35, 45, 0.12),
-      transparent 45%
-    ),
+      transparent 45%),
     var(--space-void);
 }
 
@@ -158,12 +163,10 @@ button:focus-visible {
   pointer-events: none;
 
   background:
-    radial-gradient(
-      ellipse at center,
+    radial-gradient(ellipse at center,
       transparent 35%,
       rgba(3, 5, 7, 0.18) 65%,
-      rgba(3, 5, 7, 0.65) 100%
-    );
+      rgba(3, 5, 7, 0.65) 100%);
 }
 
 
@@ -182,24 +185,18 @@ button:focus-visible {
   opacity: 0.08;
 
   background-image:
-    linear-gradient(
+    linear-gradient(rgba(125, 223, 242, 0.18) 1px,
+      transparent 1px),
+    linear-gradient(90deg,
       rgba(125, 223, 242, 0.18) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(125, 223, 242, 0.18) 1px,
-      transparent 1px
-    );
+      transparent 1px);
 
   background-size: 80px 80px;
 
   mask-image:
-    radial-gradient(
-      ellipse at center,
+    radial-gradient(ellipse at center,
       black 0%,
-      transparent 72%
-    );
+      transparent 72%);
 }
 
 
@@ -476,40 +473,23 @@ button:focus-visible {
 
 
 /* =========================================================
-   14. RIGHT SIDE OBJECT PANEL
+   14. RIGHT SIDE OBJECT PANEL (AEROSPACE INSTRUMENT)
    ========================================================= */
 
 .object-panel {
   position: absolute;
-
   top: 50%;
   right: 32px;
-
   z-index: 30;
-
   width: 320px;
-
   transform: translateY(-50%);
-
-  padding: 24px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(10, 16, 23, 0.82),
-      rgba(5, 8, 12, 0.68)
-    );
-
-  border: 1px solid var(--line);
-
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-
-  animation: panelIn 500ms cubic-bezier(0.22, 1, 0.36, 1);
-
-  box-shadow:
-    -20px 0 60px rgba(0, 0, 0, 0.25);
-
+  padding: 22px 24px;
+  background: var(--space-panel);
+  border: 1px solid var(--space-panel-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: panelIn 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
   overflow: hidden;
 }
 
@@ -1137,11 +1117,9 @@ button:focus-visible {
 
   transform-origin: left center;
 
-  background: linear-gradient(
-    90deg,
-    var(--cyan),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      var(--cyan),
+      transparent);
 
   animation: radarSweep 4s linear infinite;
 }
@@ -1205,24 +1183,247 @@ button:focus-visible {
 
   z-index: 15;
 
-  pointer-events: none;
+  pointer-events: auto;
 }
+
+/* =========================================================
+   3D SCIENTIFIC ORBIT VIEWPORT
+   ========================================================= */
+
+.asteroid-3d-orbit-viewer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: auto;
+}
+
+.orbit-canvas-viewport {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+.orbit-canvas-viewport:active {
+  cursor: grabbing;
+}
+
+/* =========================================================
+   3D FLOATING HUD LABELS & ANCHORS (ZERO-LATENCY SYNC)
+   ========================================================= */
+
+/* Positional 3D Label Anchor (Immediate GPU transform, zero transition lag) */
+.floating-label-anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 22;
+  transition: none !important;
+}
+
+.floating-label-anchor.primary-anchor {
+  z-index: 25;
+}
+
+/* Floating Technical Diameter Pin on Asteroid */
+.asteroid-floating-tag {
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: opacity var(--transition-fast);
+}
+
+.tag-anchor-line {
+  width: 1px;
+  height: 22px;
+  background: linear-gradient(to top, var(--cyan), transparent);
+  margin-top: 4px;
+}
+
+.tag-content {
+  background: rgba(5, 8, 12, 0.78);
+  border: 1px solid rgba(125, 223, 242, 0.4);
+  padding: 4px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 12px rgba(125, 223, 242, 0.15);
+}
+
+.tag-title {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.16em;
+  color: var(--text-muted);
+}
+
+.tag-value {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--cyan-bright);
+  letter-spacing: 0.06em;
+}
+
+/* Badges for other asteroids in relative 3D space */
+.nearby-asteroid-badge {
+  transform: translate(-50%, -100%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(8, 13, 19, 0.82);
+  border: 1px solid rgba(125, 223, 242, 0.35);
+  padding: 4px 8px;
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  pointer-events: auto;
+  user-select: none;
+  /* Visual transitions only - zero positional latency */
+  transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast), transform 0.15s ease-out;
+}
+
+.nearby-asteroid-badge:hover {
+  background: rgba(14, 25, 36, 0.95);
+  border-color: var(--cyan);
+  box-shadow: 0 0 14px rgba(125, 223, 242, 0.3);
+  transform: translate(-50%, -108%) scale(1.05);
+}
+
+.nearby-asteroid-badge.hazard {
+  border-color: rgba(243, 184, 75, 0.5);
+}
+
+.nearby-asteroid-badge.hazard:hover {
+  border-color: var(--amber);
+  box-shadow: 0 0 14px rgba(243, 184, 75, 0.3);
+}
+
+.nearby-badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 6px var(--cyan);
+}
+
+.nearby-asteroid-badge.hazard .nearby-badge-dot {
+  background: var(--amber);
+  box-shadow: 0 0 6px var(--amber);
+}
+
+.nearby-badge-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.nearby-badge-name {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-primary);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.nearby-badge-dist {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+}
+
+/* ASTRA Technical Scan Overlay State */
+.orbit-scan-status-overlay {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  z-index: 25;
+}
+
+.scan-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(8, 13, 19, 0.85);
+  border: 1px solid rgba(125, 223, 242, 0.35);
+  padding: 6px 14px;
+  backdrop-filter: blur(10px);
+}
+
+.scan-led {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan);
+}
+
+.scan-led.pulsing {
+  animation: livePulse 1.2s ease-in-out infinite;
+}
+
+.scan-led.active {
+  box-shadow: 0 0 8px var(--cyan);
+}
+
+.scan-text {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+.interaction-hint {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  background: rgba(4, 7, 10, 0.6);
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+/* Scientific Camera Drag Notice */
+.orbit-controls-hint {
+  position: absolute;
+  bottom: 30px;
+  right: 32px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  pointer-events: none;
+  z-index: 20;
+}
+
 
 .orbit-info {
   position: absolute;
-
   left: 32px;
-  bottom: 90px;
-
-  width: 260px;
-
-  padding: 18px;
-
-  background: rgba(5, 8, 12, 0.68);
-
-  border-left: 1px solid var(--cyan);
-
-  backdrop-filter: blur(10px);
+  bottom: 80px;
+  width: 270px;
+  padding: 18px 20px;
+  background: var(--space-panel);
+  border: 1px solid var(--space-panel-border);
+  border-left: 2px solid var(--cyan);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  pointer-events: auto;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
 }
 
 .orbit-info-title {
@@ -1313,6 +1514,7 @@ button:focus-visible {
    ========================================================= */
 
 @keyframes livePulse {
+
   0%,
   100% {
     opacity: 0.4;
@@ -1333,6 +1535,7 @@ button:focus-visible {
 
 
 @keyframes targetPulse {
+
   0%,
   100% {
     opacity: 0.55;
@@ -1509,8 +1712,7 @@ button:focus-visible {
 
     padding: 18px;
 
-    animation: mobilePanelIn 500ms
-      cubic-bezier(0.22, 1, 0.36, 1);
+    animation: mobilePanelIn 500ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .object-name {
@@ -1588,6 +1790,7 @@ button:focus-visible {
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -1600,7 +1803,7 @@ button:focus-visible {
 
 
 /* =========================================================
-   36. RADAR FIELD & TARGETING SYSTEM
+   36. RADAR FIELD & TARGETING SYSTEM (AEROSPACE INSTRUMENT)
    ========================================================= */
 
 .radar-field {
@@ -1611,13 +1814,69 @@ button:focus-visible {
   overflow: hidden;
 }
 
+/* Rotating Phased-Array Radar Sweep Beam */
+.radar-sweep-beam {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(90vw, 90vh);
+  height: min(90vw, 90vh);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.18;
+  background: conic-gradient(
+    from 0deg,
+    rgba(94, 226, 255, 0.28) 0deg,
+    rgba(94, 226, 255, 0.08) 25deg,
+    transparent 65deg,
+    transparent 360deg
+  );
+  animation: radarSweepRotate 14s linear infinite;
+  mask-image: radial-gradient(circle at center, transparent 3%, black 8%, black 48%, transparent 50%);
+}
+
+@keyframes radarSweepRotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Diagonal Azimuth Reference Guides */
+.radar-diagonal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(74vw, 74vh);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(90, 140, 175, 0.08) 15%,
+    rgba(90, 140, 175, 0.08) 85%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.radar-diag-1 {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.radar-diag-2 {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
 /* Concentric range rings around Earth (50%, 50%) */
 .radar-ring {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  border: 1px dashed rgba(125, 223, 242, 0.12);
+  border: 1px dashed rgba(90, 140, 175, 0.18);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -1639,65 +1898,136 @@ button:focus-visible {
 
 .radar-ring-label {
   position: absolute;
-  top: 2px;
+  top: 4px;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-mono);
-  font-size: 7px;
-  letter-spacing: 0.12em;
-  color: rgba(125, 223, 242, 0.35);
+  font-size: 7.5px;
+  letter-spacing: 0.14em;
+  color: rgba(94, 226, 255, 0.45);
+  background: rgba(4, 7, 10, 0.85);
+  padding: 1px 5px;
+  border-radius: 2px;
+  border: 1px solid rgba(90, 140, 175, 0.15);
   pointer-events: none;
+}
+
+/* Azimuth Cardinal Indicators */
+.radar-cardinal {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.cardinal-n {
+  top: max(18px, 4.5vh);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cardinal-s {
+  bottom: max(18px, 4.5vh);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cardinal-e {
+  right: max(18px, 4.5vw);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.cardinal-w {
+  left: max(18px, 4.5vw);
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* Center crosshair axes */
 .radar-axis-h {
   position: absolute;
   top: 50%;
-  left: 15%;
-  right: 15%;
+  left: 8%;
+  right: 8%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(125, 223, 242, 0.08) 20%, rgba(125, 223, 242, 0.08) 80%, transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(90, 140, 175, 0.12) 15%,
+    rgba(90, 140, 175, 0.22) 50%,
+    rgba(90, 140, 175, 0.12) 85%,
+    transparent
+  );
   pointer-events: none;
 }
 
 .radar-axis-v {
   position: absolute;
   left: 50%;
-  top: 10%;
-  bottom: 10%;
+  top: 6%;
+  bottom: 6%;
   width: 1px;
-  background: linear-gradient(180deg, transparent, rgba(125, 223, 242, 0.08) 20%, rgba(125, 223, 242, 0.08) 80%, transparent);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(90, 140, 175, 0.12) 15%,
+    rgba(90, 140, 175, 0.22) 50%,
+    rgba(90, 140, 175, 0.12) 85%,
+    transparent
+  );
   pointer-events: none;
 }
 
-/* Center Earth marker */
+/* Center Earth Astronomical Reference Datum */
 .radar-earth {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #5dade2;
-  box-shadow: 0 0 12px rgba(93, 173, 226, 0.8), 0 0 24px rgba(93, 173, 226, 0.4);
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
-  z-index: 15;
+  z-index: 18;
+}
+
+.radar-earth-crosshair {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(94, 226, 255, 0.5);
+  border-radius: 50%;
+  background: rgba(9, 20, 32, 0.7);
+}
+
+.radar-earth-glyph {
+  position: relative;
+  font-size: 9px;
+  color: var(--cyan);
+  line-height: 1;
+  font-family: var(--font-mono);
 }
 
 .radar-earth-label {
   position: absolute;
-  top: 12px;
+  top: 18px;
   left: 50%;
   transform: translateX(-50%);
   font-family: var(--font-mono);
   font-size: 7px;
   letter-spacing: 0.14em;
-  color: rgba(93, 173, 226, 0.7);
+  color: var(--blue-soft);
   white-space: nowrap;
+  background: rgba(4, 7, 10, 0.9);
+  padding: 1px 4px;
+  border: 1px solid rgba(90, 140, 175, 0.2);
 }
 
-/* Radar dots */
+/* Radar Contact Buttons */
 .radar-dot-button {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -1709,77 +2039,88 @@ button:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
   opacity: 0;
-  animation: radarBlipIn 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: radarBlipIn 450ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Contact core: precision diamond */
 .radar-dot-core {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  transform: rotate(45deg);
   background: var(--cyan);
   border: 1px solid var(--cyan-bright);
-  box-shadow: 0 0 8px var(--cyan), 0 0 16px var(--cyan-dim);
-  transition: transform 200ms ease, box-shadow 200ms ease, background 200ms ease;
+  box-shadow: 0 0 6px rgba(94, 226, 255, 0.45);
+  transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
 }
 
 .radar-dot-core.hazard {
   background: var(--amber);
-  border-color: #ffe082;
-  box-shadow: 0 0 8px var(--amber), 0 0 16px rgba(243, 184, 75, 0.3);
+  border-color: #f7d58a;
+  box-shadow: 0 0 6px rgba(207, 147, 48, 0.4);
 }
 
 .radar-dot-core.critical {
   background: var(--danger);
-  border-color: #ffab91;
-  box-shadow: 0 0 10px var(--danger), 0 0 20px rgba(255, 107, 95, 0.4);
+  border-color: #ff9d94;
+  box-shadow: 0 0 7px rgba(204, 71, 59, 0.5);
+}
+
+.radar-blip-pdes {
+  position: absolute;
+  left: 12px;
+  bottom: -6px;
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  pointer-events: none;
+  opacity: 0.65;
+  white-space: nowrap;
+  transition: opacity 150ms ease, color 150ms ease;
+}
+
+.radar-dot-button:hover .radar-blip-pdes,
+.radar-dot-button.active .radar-blip-pdes {
+  opacity: 1;
+  color: var(--cyan-bright);
 }
 
 .radar-dot-button:hover .radar-dot-core {
-  transform: scale(1.5);
-  box-shadow: 0 0 14px var(--cyan-bright), 0 0 25px var(--cyan);
+  transform: rotate(45deg) scale(1.4);
+  background: #ffffff;
+  border-color: var(--cyan-bright);
 }
 
 .radar-dot-button.active .radar-dot-core {
-  transform: scale(1.4);
+  transform: rotate(45deg) scale(1.3);
   background: #ffffff;
   border-color: var(--cyan-bright);
-  box-shadow: 0 0 16px #ffffff, 0 0 30px var(--cyan);
+  box-shadow: 0 0 10px #ffffff;
 }
 
-/* Initial ping animation when blip appears */
-.radar-dot-ping {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 1px solid var(--cyan);
-  pointer-events: none;
-  animation: radarPing 1400ms cubic-bezier(0.2, 0.8, 0.2, 1) 1 forwards;
-}
-
-/* Hover tooltip tag */
+/* Technical Tactical Hover Readout Card */
 .radar-dot-tag {
   position: absolute;
-  left: calc(100% + 6px);
+  left: calc(100% + 8px);
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(8, 13, 19, 0.92);
-  border: 1px solid var(--line-bright);
+  background: rgba(7, 12, 18, 0.94);
+  border: 1px solid rgba(90, 140, 175, 0.28);
   border-left: 2px solid var(--cyan);
-  padding: 3px 6px;
+  padding: 6px 9px;
   border-radius: 2px;
   white-space: nowrap;
   pointer-events: none;
   display: none;
   flex-direction: column;
-  gap: 1px;
-  z-index: 50;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  gap: 5px;
+  z-index: 60;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.75);
 }
 
 .radar-dot-button:hover .radar-dot-tag,
@@ -1787,43 +2128,144 @@ button:focus-visible {
   display: flex;
 }
 
-.radar-dot-tag-title {
-  font-family: var(--font-display);
-  font-size: 9px;
-  font-weight: 500;
-  color: var(--text-primary);
-  letter-spacing: 0.05em;
+.radar-tag-row.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid rgba(90, 140, 175, 0.16);
+  padding-bottom: 4px;
 }
 
-.radar-dot-tag-meta {
+.radar-dot-tag-title {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.06em;
+}
+
+.radar-tag-badge {
   font-family: var(--font-mono);
   font-size: 7px;
-  color: var(--text-secondary);
+  font-weight: 500;
+  padding: 1px 4px;
+  border-radius: 2px;
+  background: rgba(94, 226, 255, 0.12);
+  color: var(--cyan);
+  border: 1px solid rgba(94, 226, 255, 0.3);
+}
+
+.radar-tag-badge.pha {
+  background: var(--amber-dim);
+  color: var(--amber);
+  border-color: rgba(207, 147, 48, 0.4);
+}
+
+.radar-tag-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 8px;
+  row-gap: 2px;
+  align-items: center;
+}
+
+.radar-tag-k {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.radar-tag-v {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 500;
+  color: var(--cyan-bright);
+  text-align: right;
+}
+
+/* Optical Lock Reticle for Selected Asteroid */
+.target-marker {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.target-reticle-corner {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-color: var(--cyan);
+}
+
+.corner-tl {
+  top: 0;
+  left: 0;
+  border-top: 1.5px solid var(--cyan);
+  border-left: 1.5px solid var(--cyan);
+}
+
+.corner-tr {
+  top: 0;
+  right: 0;
+  border-top: 1.5px solid var(--cyan);
+  border-right: 1.5px solid var(--cyan);
+}
+
+.corner-bl {
+  bottom: 0;
+  left: 0;
+  border-bottom: 1.5px solid var(--cyan);
+  border-left: 1.5px solid var(--cyan);
+}
+
+.corner-br {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1.5px solid var(--cyan);
+  border-right: 1.5px solid var(--cyan);
+}
+
+.target-reticle-label {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(4, 7, 11, 0.92);
+  border: 1px solid rgba(94, 226, 255, 0.35);
+  padding: 2px 5px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.target-lock-title {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--cyan-bright);
+}
+
+.target-coords {
+  font-family: var(--font-mono);
+  font-size: 6.5px;
   letter-spacing: 0.08em;
+  color: var(--text-secondary);
 }
 
 @keyframes radarBlipIn {
   0% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0);
-  }
-  60% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.5);
+    transform: translate(-50%, -50%) scale(0.4);
   }
   100% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
 }
-
-@keyframes radarPing {
-  0% {
-    transform: scale(0.6);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(3.6);
-    opacity: 0;
-  }
-}
