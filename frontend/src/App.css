@@ -1413,17 +1413,49 @@ button:focus-visible {
 
 .orbit-info {
   position: absolute;
-  left: 32px;
+  right: 32px;
   bottom: 80px;
   width: 270px;
   padding: 18px 20px;
   background: var(--space-panel);
   border: 1px solid var(--space-panel-border);
-  border-left: 2px solid var(--cyan);
+  border-right: 2px solid var(--cyan);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   pointer-events: auto;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+  transition: transform var(--transition-normal);
+}
+
+.orbit-info.collapsed {
+  transform: translateX(calc(100% + 32px));
+}
+
+.collapse-panel-btn {
+  position: absolute;
+  top: 18px;
+  left: -32px;
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.collapse-arrow {
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid var(--cyan);
+  border-right: 2px solid var(--cyan);
+  transform: rotate(45deg);
+  transition: transform var(--transition-normal);
+}
+
+.orbit-info.collapsed .collapse-arrow {
+  transform: rotate(-135deg);
 }
 
 .orbit-info-title {
@@ -1766,8 +1798,28 @@ button:focus-visible {
     left: 18px;
     right: 18px;
     bottom: 70px;
-
     width: auto;
+    border-right: 1px solid var(--space-panel-border);
+    border-bottom: 2px solid var(--cyan);
+    transition: transform var(--transition-normal);
+  }
+
+  .orbit-info.collapsed {
+    transform: translateY(calc(100% + 70px));
+  }
+
+  .collapse-panel-btn {
+    top: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .collapse-arrow {
+    transform: rotate(135deg);
+  }
+
+  .orbit-info.collapsed .collapse-arrow {
+    transform: rotate(-45deg);
   }
 }
 

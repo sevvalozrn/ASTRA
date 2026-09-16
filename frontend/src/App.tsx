@@ -50,6 +50,7 @@ function App() {
   const [selectedAsteroid, setSelectedAsteroid] =
     useState<AstraObject | null>(null);
   const [orbitMode, setOrbitMode] = useState(false);
+  const [isAnalystCollapsed, setIsAnalystCollapsed] = useState(false);
 
   const [bootStep, setBootStep] = useState(0);
   const [time, setTime] = useState("");
@@ -651,7 +652,14 @@ function App() {
                 onSelectAsteroid={(ast) => setSelectedAsteroid(ast)}
               />
 
-              <div className="orbit-info">
+              <div className={`orbit-info ${isAnalystCollapsed ? "collapsed" : ""}`}>
+                <button
+                  className="collapse-panel-btn"
+                  onClick={() => setIsAnalystCollapsed(!isAnalystCollapsed)}
+                  aria-label={isAnalystCollapsed ? "Expand panel" : "Collapse panel"}
+                >
+                  <div className="collapse-arrow" />
+                </button>
                 <div className="orbit-info-title">Orbital Analysis</div>
 
                 <div className="orbit-info-name">
